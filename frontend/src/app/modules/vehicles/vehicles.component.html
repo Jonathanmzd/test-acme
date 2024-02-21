@@ -1,0 +1,105 @@
+<div class="row">
+  <div class="col d-flex align-items-center justify-content-between">
+    <h1>Vehiculos</h1>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newVehicle"><i class="bi bi-plus-circle"></i> Nuevo</button>
+  </div>
+</div>
+
+<table class="table" *ngIf="listVehicles.length > 0; else noVehicles">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Placa</th>
+      <th scope="col">Color</th>
+      <th scope="col">Marca</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Conductor</th>
+      <th scope="col">Propietario</th>
+      <th scope="col">Acción</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of listVehicles">
+      <td>{{ item.id }}</td>
+      <td>{{ item.placa }}</td>
+      <td>{{ item.color }}</td>
+      <td>{{ item.marca }}</td>
+      <td>{{ item.tipo }}</td>
+      <td>
+        {{ item.conductor.name }}
+        {{ item.conductor && item.conductor.profile ?
+        item.conductor.profile.primer_nombre + ' ' +
+        (item.conductor.profile.segundo_nombre ? item.conductor.profile.segundo_nombre + ' ' : '') +
+        item.conductor.profile.apellidos :
+        '-' }}
+      </td>
+      <td>
+        {{ item.propietario.name }}
+        {{ item.propietario && item.propietario.profile ?
+        item.propietario.profile.primer_nombre + ' ' +
+        (item.propietario.profile.segundo_nombre ? item.propietario.profile.segundo_nombre + ' ' : '') +
+        item.propietario.profile.apellidos :
+        '-' }}
+      </td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<ng-template #noVehicles>
+  <p>No Existen Vehiculos</p>
+</ng-template>
+
+
+<div class="modal fade" id="newVehicle" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Vehiculo</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form [formGroup]="vehicleForm" (ngSubmit)="newVehicle()">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="placa" class="col-form-label">Placa:</label>
+            <input type="text" class="form-control" id="placa" formControlName="placa" name="placa" required>
+          </div>
+          <div class="mb-3">
+            <label for="color" class="col-form-label">Color:</label>
+            <input type="text" class="form-control" id="color" formControlName="color" name="color" required>
+          </div>
+          <div class="mb-3">
+            <label for="marca" class="col-form-label">Marca:</label>
+            <input type="text" class="form-control" id="marca" formControlName="marca" name="marca" required>
+          </div>
+          <div class="mb-3">
+            <label for="tipo">Tipo de Vehículo:</label>
+            <select formControlName="tipo" id="tipo" class="form-control" name="tipo" required>
+              <option value="" disabled selected>Selecciona un tipo</option>
+              <option value="particular">Particular</option>
+              <option value="publico">Público</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="conductor_id" class="col-form-label">Conductor:</label>
+            <select class="form-control" id="conductor_id" formControlName="conductor_id" name="conductor_id" required>
+              <option *ngFor="let item of listDriver" [value]="item.id_user">{{ item.id_user }} | {{ item.name }} - {{ item.primer_nombre }} {{ item.segundo_nombre }} {{ item.apellidos }}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="propietario_id" class="col-form-label">Propietario:</label>
+            <select class="form-control" id="propietario_id" formControlName="propietario_id" name="propietario_id" required>
+              <option *ngFor="let item of listPropietario" [value]="item.id_user">{{ item.id_user }} | {{ item.name }} - {{ item.primer_nombre }} {{ item.segundo_nombre }} {{ item.apellidos }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"><i class="bi bi-floppy"></i> Guardar</button>
+        </div>
+      </form>
+      <div *ngIf="errorMessage" class="error-message alert alert-danger">{{ errorMessage }}</div>
+    </div>
+  </div>
+</div>
+
+<button class="btn btn-sm btn-outline-success" (click)="generateVehicles()"><i class="bi bi-file-earmark-excel"></i> Exportar a Excel</button>

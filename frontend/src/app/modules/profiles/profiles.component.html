@@ -1,0 +1,96 @@
+<div class="row">
+  <div class="col d-flex align-items-center justify-content-between">
+    <h1>Usuarios</h1>
+    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newProfile"><i class="bi bi-plus-circle"></i> Nuevo</button> -->
+  </div>
+</div>
+
+<table class="table" *ngIf="listProfiles.length > 0; else noProfiles">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Email</th>
+      <th scope="col">cedula</th>
+      <th scope="col">Nombres Apellidos</th>
+      <th scope="col">direccion</th>
+      <th scope="col">telefono</th>
+      <th scope="col">ciudad</th>
+      <th scope="col">Acción</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of listProfiles">
+      <td>{{ item.id_user }}</td>
+      <td>{{ item.email }}</td>
+      <td>{{ item.cedula }}</td>
+      <td>{{ (item.primer_nombre ? item.primer_nombre : '') +
+        (item.segundo_nombre ? ' ' + item.segundo_nombre : '') +
+        (item.apellidos ? ' ' + item.apellidos : '') }}</td>
+      <td>{{ item.direccion }}</td>
+      <td>{{ item.telefono }}</td>
+      <td>{{ item.ciudad }}</td>
+      <td>
+        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#btnNewProfile"
+          (click)="onSelectUser(item.id_user)" title="Registrar Perfil"><i class="bi bi-pencil"></i></button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<ng-template #noProfiles>
+  <p>No Existen Usuarios</p>
+</ng-template>
+
+
+<div class="modal fade" id="btnNewProfile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Vehiculo</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form [formGroup]="profileForm" (ngSubmit)="newProfile()">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="cedula" class="col-form-label">Numero Cedula</label>
+            <input type="number" class="form-control" id="cedula" formControlName="cedula" name="cedula" required>
+          </div>
+          <div class="mb-3">
+            <label for="primer_nombre" class="col-form-label">Primer Nombre</label>
+            <input type="text" class="form-control" id="primer_nombre" formControlName="primer_nombre"
+              name="primer_nombre" required>
+          </div>
+          <div class="mb-3">
+            <label for="segundo_nombre" class="col-form-label">Segundo Nombre</label>
+            <input type="text" class="form-control" id="segundo_nombre" formControlName="segundo_nombre"
+              name="segundo_nombre" required>
+          </div>
+          <div class="mb-3">
+            <label for="apellidos" class="col-form-label">Apellidos</label>
+            <input type="text" class="form-control" id="apellidos" formControlName="apellidos" name="apellidos"
+              required>
+          </div>
+          <div class="mb-3">
+            <label for="direccion" class="col-form-label">Direccion</label>
+            <input type="text" class="form-control" id="direccion" formControlName="direccion" name="direccion"
+              required>
+          </div>
+          <div class="mb-3">
+            <label for="telefono" class="col-form-label">Telefono</label>
+            <input type="number" class="form-control" id="telefono" formControlName="telefono" name="telefono" required>
+          </div>
+          <div class="mb-3">
+            <label for="ciudad" class="col-form-label">Ciudad</label>
+            <input type="text" class="form-control" id="ciudad" formControlName="ciudad" name="ciudad" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"><i class="bi bi-floppy"></i> Guardar</button>
+        </div>
+      </form>
+      <div *ngIf="errorMessage" class="error-message alert alert-danger">{{ errorMessage }}</div>
+    </div>
+  </div>
+</div>
+
+<button class="btn btn-sm btn-outline-success" (click)="generateProfiles()"><i class="bi bi-file-earmark-excel"></i> Exportar a Excel</button>

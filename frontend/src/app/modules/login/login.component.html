@@ -1,0 +1,31 @@
+<div class="container" style="margin-top: 15%;">
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <main class="form-signin w-100 m-auto">
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+          <img class="mb-4" src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72"
+            height="57">
+          <h1 class="h3 mb-3 fw-normal">Ingreso</h1>
+
+          <div class="form-floating">
+            <input type="email" class="form-control" id="floatingInput" id="email" formControlName="email"
+              name="email" placeholder="name@example.com" required>
+            <label for="floatingInput">Email address</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" id="password" formControlName="password" name="password"
+              id="floatingPassword" placeholder="Password" required>
+            <label for="floatingPassword">Password</label>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary w-100 py-2">Ingresar</button>
+          </div>
+        </form>
+      </main>
+      <div *ngIf="errorMessage" class="error-message alert alert-danger">{{ errorMessage }}</div>
+      <a href="/register" class="nav-link blue-link" routerLink="register">Registrar</a>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</div>

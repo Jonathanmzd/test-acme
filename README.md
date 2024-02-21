@@ -50,6 +50,14 @@ Nota: de ser un puerto diferente usar el flat --port=3000 e indicar el puerto
 php artisan serve 
 ```
 
+#### Implantar datos fake de 10 usuarios
+
+**Password De Todos los Usuarios Creados**: password
+
+```sh
+php artisan db:seed
+```
+
 ### Frontend Angular 16
 
 #### Instalar Dependecias
