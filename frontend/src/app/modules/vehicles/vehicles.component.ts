@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ReportExcelComponent } from 'src/app/components/report-excel/report-excel.component';
 import { ProfilesService } from '../profiles/profiles.service';
+import { Profile } from 'src/app/interfaces/profile.interface';
 
 @Component({
   selector: 'app-vehicles',
@@ -14,8 +15,8 @@ export class VehiclesComponent implements OnInit {
   listVehicles: any[] = [];
   vehicleForm: FormGroup;
   errorMessage = '';
-  listDriver: any[] = [];
-  listPropietario: any[] = [];
+  listDriver: Profile[] = [];
+  listPropietario: Profile[] = [];
 
   constructor(
     private service: VehiclesService,
@@ -70,7 +71,7 @@ export class VehiclesComponent implements OnInit {
 
   getRole(role: string): void {
     this.profileService.getUsersByRole(role).subscribe(
-      (users: any[]) => {
+      (users: Profile[]) => {
         if (role === 'Conductor') {
           this.listDriver = users;
         }

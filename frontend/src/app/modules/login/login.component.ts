@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
+import { LoginData } from '../../interfaces/login.interface';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,8 @@ export class LoginComponent {
 
   login(): void {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe(
+      const formData: LoginData = this.loginForm.value as LoginData;
+      this.authService.login(formData).subscribe(
         (data) => {
           if (data && data.token) {
             localStorage.setItem('token', data.token);

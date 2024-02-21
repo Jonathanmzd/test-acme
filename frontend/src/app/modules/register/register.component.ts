@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/service/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthResponse, UserData } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-register',
@@ -34,12 +35,15 @@ export class RegisterComponent {
         this.errorMessage = 'La contraseña y la confirmación de contraseña no coinciden.';
         return;
       }
-      this.authService.register(this.registerForm.value).subscribe(
-        (data) => {
+
+      const userData: UserData = this.registerForm.value;
+
+      this.authService.register(userData).subscribe(
+        (data: AuthResponse) => {
           this.toastr.success('¡Creado Correctamente!', 'OK');
           this.router.navigate(['login']);
         },
-        (error) => {
+        (error: any) => {
           if (error) {
             this.errorMessage = "El correo electrónico ya está registrado.";
           } else {

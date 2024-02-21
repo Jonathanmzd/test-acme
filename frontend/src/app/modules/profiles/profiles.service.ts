@@ -1,9 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { AuthService } from 'src/app/service/auth.service';
 import { environment } from '../../../environments/environment';
+import { Profile, ProfilesResponse } from '../../interfaces/profile.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -34,23 +36,23 @@ export class ProfilesService {
     }
   }
 
-  getAll(): Observable<any> {
+  getAll(): Observable<ProfilesResponse> {
     const headers = this.getTokenHeaders();
     if (headers !== null) {
-      return this.http.get<any>(environment.apiUrl + `/profiles`, { headers });
+      return this.http.get<ProfilesResponse>(environment.apiUrl + `/profiles`, { headers });
     } else {
-      return new Observable<any>((observer) => {
+      return new Observable<ProfilesResponse>((observer) => {
         observer.error('No existe Token');
         observer.complete();
       });
     }
   }
 
-  getUsersByRole(role: string): Observable<any[]> {
+  getUsersByRole(role: string): Observable<Profile[]> {
     const headers = this.getTokenHeaders();
     if (headers !== null) {
-      return this.http.get<any>(environment.apiUrl + `/profiles`, { headers }).pipe(
-        map((response) => {
+      return this.http.get<ProfilesResponse>(environment.apiUrl + `/profiles`, { headers }).pipe(
+        map((response: ProfilesResponse) => {
           return Object.values(response.data).filter(user => this.hasRole(user, role));
         }),
         catchError((error) => {
@@ -59,7 +61,7 @@ export class ProfilesService {
         })
       );
     } else {
-      return new Observable<any>((observer) => {
+      return new Observable<Profile[]>((observer) => {
         observer.error('No existe Token');
         observer.complete();
       });
@@ -70,7 +72,7 @@ export class ProfilesService {
     return typeof user === 'object' && user !== null && 'role' in user && user.role === role;
   }
 
-  newProfile(profileData: any): Observable<any> {
+  newProfile(profileData: Profile): Observable<any> {
     const headers = this.getTokenHeaders();
     if (headers !== null) {
       return this.http.post<any>(`${environment.apiUrl}/profiles`, profileData, { headers });

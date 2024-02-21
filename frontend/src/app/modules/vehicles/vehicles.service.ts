@@ -4,6 +4,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { AuthService } from 'src/app/service/auth.service';
 import { environment } from '../../../environments/environment';
+import { Vehicle } from 'src/app/interfaces/vehicle.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +37,7 @@ export class VehiclesService {
   getAll(): Observable<any> {
     const headers = this.getTokenHeaders();
     if (headers !== null) {
-      return this.http.get<any>(environment.apiUrl + `/vehicles`, { headers });
+      return this.http.get<Vehicle>(environment.apiUrl + `/vehicles`, { headers });
     } else {
       return new Observable<any>((observer) => {
         observer.error('No existe Token');
@@ -45,10 +46,10 @@ export class VehiclesService {
     }
   }
 
-  createVehicle(vehicleData: any): Observable<any> {
+  createVehicle(vehicleData: Vehicle): Observable<any> {
     const headers = this.getTokenHeaders();
     if (headers !== null) {
-      return this.http.post<any>(`${environment.apiUrl}/vehicles`, vehicleData, { headers })
+      return this.http.post<Vehicle>(`${environment.apiUrl}/vehicles`, vehicleData, { headers })
         .pipe(
           catchError(error => {
             console.error('Error Creando:', error);

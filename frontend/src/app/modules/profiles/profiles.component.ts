@@ -1,19 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ProfilesService } from './profiles.service';
 import { ReportExcelComponent } from '../../components/report-excel/report-excel.component';
+
+import { Profile } from '../../interfaces/profile.interface';
+import { ProfilesResponse } from '../../interfaces/profile.interface';
 
 @Component({
   selector: 'app-profiles',
   templateUrl: './profiles.component.html',
   styleUrls: ['./profiles.component.css'],
 })
-export class ProfilesComponent {
-  listProfiles: any[] = [];
+export class ProfilesComponent implements OnInit {
+  listProfiles: Profile[] = [];
   profileForm: FormGroup;
   errorMessage = '';
-  selectedUserId: string | null = null;
+  selectedUserId: number = 0;
 
   constructor(
     private service: ProfilesService,
@@ -22,6 +25,7 @@ export class ProfilesComponent {
     private excelService: ReportExcelComponent,
   ) {
     this.profileForm = this.formBuilder.group({
+      user_id: [],
       cedula: ['', Validators.required],
       primer_nombre: ['', Validators.required],
       segundo_nombre: ['', Validators.required],
@@ -38,8 +42,8 @@ export class ProfilesComponent {
 
   getAll(): void {
     this.service.getAll().subscribe({
-      next: (response) => {
-        this.listProfiles = Object.values(response.data);
+      next: (response: ProfilesResponse) => {
+        this.listProfiles = response.data;
       },
       error: (error) => {
         console.log(error);
@@ -48,7 +52,7 @@ export class ProfilesComponent {
   }
 
   onSelectUser(id: string): void {
-    this.selectedUserId = id;
+    this.selectedUserId = parseInt(id, 10);
   }
 
   newProfile(): void {
@@ -69,8 +73,12 @@ export class ProfilesComponent {
     }
   }
 
+  clearProfileForm() {
+    this.profileForm.reset();
+  }
+
   generateProfiles(): void {
-    const data = this.listProfiles.map(item => [
+    const data = this.listProfiles.map((item: Profile) => [
       item.email,
       item.cedula,
       item.primer_nombre,
