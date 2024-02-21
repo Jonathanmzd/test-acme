@@ -42,9 +42,7 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         try {
-            $user_id = auth()->user()->id;
             $requestData = $request->all();
-            $requestData['user_id'] = $user_id;
 
             $validator = Validator::make($requestData, [
                 'user_id' => 'required|exists:users,id',

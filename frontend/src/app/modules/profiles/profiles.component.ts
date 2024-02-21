@@ -63,6 +63,8 @@ export class ProfilesComponent implements OnInit {
           this.listProfiles = Object.values(response.data);
           this.toastr.success(response.message);
           this.getAll();
+          this.clearProfileForm();
+          this.selectedUserId = 0;
         },
         error: (error) => {
           console.log(error);
