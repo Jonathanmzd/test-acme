@@ -32,6 +32,7 @@
       <td>
         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#btnNewProfile"
         (click)="onSelectUser(item.id_user)" title="Registrar Perfil"><i class="bi bi-pencil"></i></button>
+        {{ listProfiles | json }}
       </td>
     </tr>
   </tbody>
@@ -52,7 +53,7 @@
         <div class="modal-body">
           <div class="mb-3">
             <label for="cedula" class="col-form-label">Numero Cedula</label>
-            <input type="number" class="form-control" id="cedula" formControlName="cedula" name="cedula" required>
+            <input type="text" class="form-control" id="cedula" formControlName="cedula" name="cedula" required>
           </div>
           <div class="mb-3">
             <label for="primer_nombre" class="col-form-label">Primer Nombre</label>
@@ -76,7 +77,7 @@
           </div>
           <div class="mb-3">
             <label for="telefono" class="col-form-label">Telefono</label>
-            <input type="number" class="form-control" id="telefono" formControlName="telefono" name="telefono" required>
+            <input type="text" class="form-control" id="telefono" formControlName="telefono" name="telefono" required>
           </div>
           <div class="mb-3">
             <label for="ciudad" class="col-form-label">Ciudad</label>

@@ -46,12 +46,12 @@ class ProfileController extends Controller
 
             $validator = Validator::make($requestData, [
                 'user_id' => 'required|exists:users,id',
-                'cedula' => 'nullable|integer',
+                'cedula' => 'nullable|string',
                 'primer_nombre' => 'required|string',
                 'segundo_nombre' => 'nullable|string',
                 'apellidos' => 'required|string',
                 'direccion' => 'nullable|string',
-                'telefono' => 'nullable|integer',
+                'telefono' => 'nullable|string',
                 'ciudad' => 'nullable|string',
             ]);
 

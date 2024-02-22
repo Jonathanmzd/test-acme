@@ -31,7 +31,7 @@ export class ProfilesComponent implements OnInit {
       segundo_nombre: ['', Validators.required],
       apellidos: ['', Validators.required],
       direccion: ['', Validators.required],
-      telefono: ['', [Validators.required, Validators.max(11)]],
+      telefono: ['', Validators.required],
       ciudad: ['', Validators.required],
     });
   }

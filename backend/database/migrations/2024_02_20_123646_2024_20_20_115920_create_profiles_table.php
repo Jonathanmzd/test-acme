@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->integer('cedula')->nullable();
+            $table->string('cedula')->nullable();
             $table->string('primer_nombre');
             $table->string('segundo_nombre')->nullable();
             $table->string('apellidos');
             $table->string('direccion')->nullable();
-            $table->integer('telefono')->nullable();
+            $table->string('telefono')->nullable();
             $table->string('ciudad')->nullable();
             $table->timestamps();
 
