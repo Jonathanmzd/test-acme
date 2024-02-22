@@ -26,7 +26,7 @@
       <td>{{ item.marca }}</td>
       <td>{{ item.tipo }}</td>
       <td>
-        {{ item.conductor.name }}
+        {{ item.conductor?.name }}
         {{ item.conductor && item.conductor.profile ?
         item.conductor.profile.primer_nombre + ' ' +
         (item.conductor.profile.segundo_nombre ? item.conductor.profile.segundo_nombre + ' ' : '') +
@@ -34,7 +34,7 @@
         '-' }}
       </td>
       <td>
-        {{ item.propietario.name }}
+        {{ item.propietario?.name }}
         {{ item.propietario && item.propietario.profile ?
         item.propietario.profile.primer_nombre + ' ' +
         (item.propietario.profile.segundo_nombre ? item.propietario.profile.segundo_nombre + ' ' : '') +
